@@ -1,1 +1,4 @@
-dist
+test/**
+lib/**
+types/**
+dist/**

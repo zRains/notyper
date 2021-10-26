@@ -14,11 +14,11 @@ const banner =
   '/*!\n' +
   ` * ${name} v${version}\n` +
   ` * (c) 2021-${new Date().getFullYear()} ${author}\n` +
-  ' * Released under the MIT License.\n' +
+  ' * Released under the   MIT License.\n' +
   ' */'
 
 export default {
-  input: 'src/index.js',
+  input: 'src/index.ts',
   output: [
     {
       file: `dist/${pkgName}.umd.js`,
@@ -62,6 +62,7 @@ export default {
     babel({
       exclude: 'node_modules/**',
       babelHelpers: 'bundled',
+      extensions: ['js', 'ts'],
     }),
   ],
 }

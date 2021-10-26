@@ -4,11 +4,13 @@ module.exports = {
     es2021: true,
   },
   extends: ['standard'],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 12,
     sourceType: 'module',
     impliedStrict: true,
   },
+  plugins: ['@typescript-eslint'],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
