@@ -1,12 +1,11 @@
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
-import alias from '@rollup/plugin-alias'
 import replace from '@rollup/plugin-replace'
 import eslint from '@rollup/plugin-eslint'
 import { babel } from '@rollup/plugin-babel'
+import pluginTypescript from '@rollup/plugin-typescript'
 // import { terser } from 'rollup-plugin-terser'
 import clear from 'rollup-plugin-clear'
-import json from '@rollup/plugin-json'
 import { name, version, author } from '../package.json'
 
 const pkgName = 'notyper'
@@ -39,11 +38,10 @@ export default {
     },
   ],
   plugins: [
-    json(),
+    pluginTypescript(),
     clear({
       targets: ['dist'],
     }),
-    alias(),
     replace({
       'process.env.NODE_ENV': JSON.stringify(
         process.env.NODE_ENV || 'development'

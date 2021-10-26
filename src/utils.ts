@@ -7,7 +7,7 @@
  * @returns
  */
 export function randomNumArr(
-  begin: number = 0,
+  begin = 0,
   end: number,
   count: number,
   exclude: number[]
