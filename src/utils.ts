@@ -24,29 +24,14 @@ export function randomNumArr(
 }
 
 /**
- * 分割字符串
- * @param  text 被切割字符串
- * @param  tag 生成的标签
- * @param  _class 类
- * @param  _props 属性
- * @returns
+ * 返回可识别的css
+ * @param styles 驼峰样式
  */
-export function textSlicer(
-  text: string,
-  tag: keyof HTMLElementTagNameMap = 'span',
-  _class: string[] = [],
-  _props: { [key: string]: string } = {}
-) {
-  const typerResolvedChars = text.match(/\S|\s/g)
-  return [
-    ...(typerResolvedChars?.map(_char => {
-      const charPackingTag: HTMLElement = document.createElement(tag)
-      charPackingTag.classList.add(..._class)
-      Object.keys(_props).forEach(key => {
-        charPackingTag.setAttribute(key, _props[key])
-      })
-      charPackingTag.innerText = _char
-      return charPackingTag
-    }) || []),
-  ]
+export function styleConvert(styles: { [k: string]: string }) {
+  return Object.entries(styles)
+    .map(
+      ([k, v]) =>
+        `${k.replace(/[A-Z]/g, match => `-${match.toLowerCase()}`)}:${v}`
+    )
+    .join(';')
 }

@@ -19,10 +19,11 @@
     </style>
   </head>
   <body>
-    <div class="box">12321sfawe</div>
-    <script>
-      const { foo } = notyper
-      console.log(foo('zr a  in'))
+    <div class="box"></div>
+    <script defer>
+      const { createNotyper } = notyper
+      const test = createNotyper('.box', ['hello world'])
+      console.log(test)
     </script>
   </body>
 </html>

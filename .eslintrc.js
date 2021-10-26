@@ -22,5 +22,7 @@ module.exports = {
     semi: 'off',
     'comma-dangle': 'off',
     'no-constant-condition': ['error', { checkLoops: false }],
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-extra-semi': 'off',
   },
 }
