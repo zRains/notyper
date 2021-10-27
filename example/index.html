@@ -25,7 +25,9 @@
       const test = createNotyper('.box', ['hello world'])
       setTimeout(() => {
         test.setChar({
-          color: 'red',
+          _styles: {
+            color: 'red',
+          },
         })
       }, 1000)
     </script>

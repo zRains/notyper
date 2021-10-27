@@ -1,5 +1,25 @@
-import PubSub from './pusb'
 import { StoreParamsType, StoreStutus } from '../types'
+
+export class PubSub {
+  public events: Record<string, Function[]>
+  constructor() {
+    this.events = {}
+  }
+
+  public subscribe(event: string, callback: Function) {
+    if (!Reflect.has(this.events, event)) {
+      this.events[event] = []
+    }
+    return this.events[event].push(callback)
+  }
+
+  public publish(event: string, data: object = {}) {
+    if (!Reflect.has(this.events, event)) {
+      return []
+    }
+    return this.events[event].map(callback => callback(data))
+  }
+}
 
 export default class Store {
   public events: PubSub
@@ -46,11 +66,6 @@ export default class Store {
     }
     this.status = 'mutation'
     this.mutations[mutationKey](this.state, payload)
-    // let newState = this.mutations[mutationKey](this.state, payload)
-
-    // Merge the old and new together to create a new state and set it
-    // this.state = Object.assign(this.state, newState)
-
     return true
   }
 }

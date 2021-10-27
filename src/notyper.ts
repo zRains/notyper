@@ -1,12 +1,13 @@
-import { TyperChar } from './components/chars'
+import { TyperChannel } from './components/channel'
+import { TyperRender } from './components/render'
 import { PerSetting } from './types'
 import store from './store'
 
 class Notyper {
-  private rootEl: HTMLElement
-  private typers: string[]
-  private typersSlice: string[][]
-  private typersConverted: TyperChar[][]
+  public rootEl: HTMLElement
+  public typers: string[]
+  private typersChannels: TyperChannel[]
+  private typerRender: TyperRender
   constructor($rootEl: HTMLElement | string, typers: string[]) {
     this.rootEl =
       typeof $rootEl === 'string'
@@ -14,26 +15,10 @@ class Notyper {
         : $rootEl
     if (!this.rootEl) throw new Error('notyper root element no found')
     this.typers = typers
-    this.typersSlice = []
-    this.typersConverted = []
-    this.typersSliceExc()
-    this.typersConvertExc()
-    this.render()
+    this.typersChannels = typers.map(typer => new TyperChannel(typer))
+    this.typerRender = new TyperRender(this.typersChannels, this.rootEl)
   }
-  private typersSliceExc() {
-    this.typersSlice = this.typers.map(typer => typer.match(/\S|\s/g) ?? [])
-  }
-  private typersConvertExc() {
-    this.typersConverted = this.typersSlice.map(typer =>
-      typer.map(char => new TyperChar(char))
-    )
-  }
-  // 渲染
-  private render() {
-    this.rootEl.append(
-      ...this.typersConverted[0].map(typer => typer.getCharNode())
-    )
-  }
+
   // 设置字符
   public setChar(setting: PerSetting) {
     store.commit('reCharSetting', setting)
@@ -44,16 +29,25 @@ class Notyper {
     store.commit('reCursorSetting', setting)
     return this
   }
-  public addTyper(typer: string | string[]) {
+  // 添加typer
+  public appendTyper(typer: string | string[]) {
     if (typeof typer === 'string') {
       this.typers.push(typer)
+      this.typersChannels.push(new TyperChannel(typer))
     } else {
       this.typers.push(...typer)
+      this.typersChannels.push(...typer.map(_typer => new TyperChannel(_typer)))
     }
     return this
   }
-  public getRootEl() {
-    return this.rootEl
+  // 重设typer
+  public replaceTyper(typer: string | string[]) {
+    if (typeof typer === 'string') {
+      this.typers = [typer]
+    } else {
+      this.typers = typer
+    }
+    this.typersChannels = this.typers.map(_typer => new TyperChannel(_typer))
   }
 }
 
