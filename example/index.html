@@ -23,7 +23,11 @@
     <script defer>
       const { createNotyper } = notyper
       const test = createNotyper('.box', ['hello world'])
-      console.log(test)
+      setTimeout(() => {
+        test.setChar({
+          color: 'red',
+        })
+      }, 1000)
     </script>
   </body>
 </html>

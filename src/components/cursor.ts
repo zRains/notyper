@@ -1,5 +1,5 @@
-import { perSetting } from './types'
-import { styleConvert } from './utils'
+import { PerSetting } from '../types'
+import { styleConvert } from '../utils'
 
 export const cursorPerStyles = {}
 
@@ -8,7 +8,7 @@ export class Cursor {
   private cursorClass: string[]
   private cursorProps: { [k: string]: string }
   private cursorStyles: { [k: string]: string }
-  constructor(cursorSetting: perSetting) {
+  constructor(cursorSetting: PerSetting) {
     this.cursorClass = cursorSetting._class
     this.cursorProps = cursorSetting._props
     this.cursorStyles = Object.assign(cursorPerStyles, cursorSetting._styles)

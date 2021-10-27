@@ -1,13 +1,12 @@
-import { TyperChar } from './chars'
-import { perSetting } from './types'
+import { TyperChar } from './components/chars'
+import { PerSetting } from './types'
+import store from './store'
 
 class Notyper {
   private rootEl: HTMLElement
   private typers: string[]
   private typersSlice: string[][]
   private typersConverted: TyperChar[][]
-  private charPerSetting: perSetting
-  private cursorPerSetting: perSetting
   constructor($rootEl: HTMLElement | string, typers: string[]) {
     this.rootEl =
       typeof $rootEl === 'string'
@@ -17,32 +16,6 @@ class Notyper {
     this.typers = typers
     this.typersSlice = []
     this.typersConverted = []
-    this.charPerSetting = new Proxy<perSetting>(
-      {
-        _class: [],
-        _props: {},
-        _styles: {},
-      },
-      {
-        set(target, key, value) {
-          console.log(Object.keys(this))
-          return Reflect.set(target, key, value)
-        },
-      }
-    )
-    this.cursorPerSetting = new Proxy<perSetting>(
-      {
-        _class: [],
-        _props: {},
-        _styles: {},
-      },
-      {
-        set(target, key, value) {
-          console.log(Object.keys(this))
-          return Reflect.set(target, key, value)
-        },
-      }
-    )
     this.typersSliceExc()
     this.typersConvertExc()
     this.render()
@@ -52,7 +25,7 @@ class Notyper {
   }
   private typersConvertExc() {
     this.typersConverted = this.typersSlice.map(typer =>
-      typer.map(char => new TyperChar(char, this.charPerSetting))
+      typer.map(char => new TyperChar(char))
     )
   }
   // 渲染
@@ -62,17 +35,13 @@ class Notyper {
     )
   }
   // 设置字符
-  public setChar(setting: perSetting) {
-    ;(Object.keys(setting) as (keyof perSetting)[]).forEach(k => {
-      this.charPerSetting[k] = setting[k] as any
-    })
+  public setChar(setting: PerSetting) {
+    store.commit('reCharSetting', setting)
     return this
   }
   // 设置光标
-  public setCursor(setting: perSetting) {
-    ;(Object.keys(setting) as (keyof perSetting)[]).forEach(k => {
-      this.cursorPerSetting[k] = setting[k] as any
-    })
+  public setCursor(setting: PerSetting) {
+    store.commit('reCursorSetting', setting)
     return this
   }
   public addTyper(typer: string | string[]) {
