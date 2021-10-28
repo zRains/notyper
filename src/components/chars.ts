@@ -3,7 +3,9 @@ import store from '../store'
 import { PerSetting } from '../types'
 
 export const charPerStyles = {
+  display: 'inline-block',
   fontSize: '35px',
+  overflow: 'hidden',
 }
 
 export class TyperChar {
@@ -20,7 +22,7 @@ export class TyperChar {
     this.initNode(store.state.charSetting)
   }
   public initNode(charSetting: PerSetting) {
-    const { _class, _props, _styles } = charSetting
+    const { _class = [], _props = {}, _styles = {} } = charSetting
     this.charClass = _class
     this.charProps = _props
     this.charStyles = Object.assign(charPerStyles, _styles)

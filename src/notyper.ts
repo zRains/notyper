@@ -1,14 +1,14 @@
 import { TyperChannel } from './components/channel'
 import { TyperRender } from './components/render'
-import { PerSetting } from './types'
-import store from './store'
+import Operation from './operation'
 
-class Notyper {
+class Notyper extends Operation {
   public rootEl: HTMLElement
   public typers: string[]
   private typersChannels: TyperChannel[]
   private typerRender: TyperRender
   constructor($rootEl: HTMLElement | string, typers: string[]) {
+    super()
     this.rootEl =
       typeof $rootEl === 'string'
         ? <HTMLElement>document.querySelector($rootEl)
@@ -19,16 +19,6 @@ class Notyper {
     this.typerRender = new TyperRender(this.typersChannels, this.rootEl)
   }
 
-  // 设置字符
-  public setChar(setting: PerSetting) {
-    store.commit('reCharSetting', setting)
-    return this
-  }
-  // 设置光标
-  public setCursor(setting: PerSetting) {
-    store.commit('reCursorSetting', setting)
-    return this
-  }
   // 添加typer
   public appendTyper(typer: string | string[]) {
     if (typeof typer === 'string') {
